@@ -1,7 +1,7 @@
-﻿using Controle_Escolar.Services;
+﻿using Controle_Escolar.Data.Dtos;
+using Controle_Escolar.Services;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Controle_Escolar.Controllers
 {
@@ -16,36 +16,18 @@ namespace Controle_Escolar.Controllers
             this.pessoaService = pessoaService;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("lista-pessoas")]
-        public async Task<ActionResult> Get()
+        [HttpGet("Login")]
+        public async Task<ActionResult> Get([FromBody] string cpf, string senha)
         {
-            return Ok(await pessoaService.GetPessoas());
+            return Ok(await pessoaService.Login(cpf, senha));
         }
 
-        // GET api/<PessoaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("cadastrar-usuario")]
+        public async Task<ActionResult> Post([FromBody] PessoaDto pessoaDto)
         {
-            return "value";
-        }
+            await pessoaService.InsertPessoa(pessoaDto);
 
-        // POST api/<PessoaController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<PessoaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PessoaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Ok();
         }
     }
 }

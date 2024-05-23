@@ -1,4 +1,5 @@
 ﻿using Controle_Escolar.Data.Context;
+using Microsoft.Extensions.Options;
 
 namespace Controle_Escolar.Configurations
 {
@@ -8,7 +9,12 @@ namespace Controle_Escolar.Configurations
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            services.AddScoped<IPessoaDbContext>(_ => new PessoaDbContext(configuration.GetConnectionString("MongoDbControleEscolar")));
+            services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
+
+            services.AddSingleton<IMongoDbSettings>(serviceProvider =>
+                serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
+            //services.AddScoped<IPessoaDbContext>(_ => new PessoaDbContext(configuration.GetConnectionString("MongoDbControleEscolar")));
 
         }
     }

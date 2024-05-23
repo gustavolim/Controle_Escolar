@@ -1,4 +1,4 @@
-﻿using Controle_Escolar.Dao;
+﻿using Controle_Escolar.Data.Repository;
 using Controle_Escolar.Services;
 
 namespace Controle_Escolar.Configurations
@@ -9,10 +9,11 @@ namespace Controle_Escolar.Configurations
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
             //services
             services.AddScoped<IPessoaService, PessoaService>();
-            //data
-            services.AddScoped<IPessoaDao, PessoaDao>();
+            services.AddScoped<IRecadoService, RecadoService>();
+
 
         }
     }
