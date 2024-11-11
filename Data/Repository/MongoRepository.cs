@@ -1,4 +1,5 @@
 ﻿using Controle_Escolar.Data.Context;
+using Controle_Escolar.Data.Dtos;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;
@@ -138,6 +139,16 @@ namespace Controle_Escolar.Data.Repository
         public Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression)
         {
             return Task.Run(() => _collection.DeleteManyAsync(filterExpression));
+        }
+
+        public async Task<List<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+                filter = _ => true; // Usa um filtro que sempre retorna true para buscar todos os registros
+            }
+
+            return await _collection.Find(filter).ToListAsync();
         }
     }
 }

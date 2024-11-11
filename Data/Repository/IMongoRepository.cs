@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Controle_Escolar.Data.Dtos;
+using System.Linq.Expressions;
 
 namespace Controle_Escolar.Data.Repository
 {
@@ -44,5 +45,6 @@ namespace Controle_Escolar.Data.Repository
         void DeleteMany(Expression<Func<TDocument, bool>> filterExpression);
 
         Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
+        Task<List<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter = null);
     }
 }
